@@ -1,0 +1,320 @@
+<!DOCTYPE html>
+<html>
+<!--
+  * Please see the included README.md file for license terms and conditions.
+  -->
+<head>
+    <title>Blank Cordova Mobile App Project Template (Lite)</title>
+    <meta http-equiv="Content-type" content="text/html; charset=utf-8">
+
+    <!-- see http://webdesign.tutsplus.com/tutorials/htmlcss-tutorials/quick-tip-dont-forget-the-viewport-meta-tag -->
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+    <style>
+        /* following two viewport lines are equivalent to the meta viewport statement above, needed for Windows */
+        /* see http://www.quirksmode.org/blog/archives/2014/05/html5_dev_conf.html and http://dev.w3.org/csswg/css-device-adapt/ */
+        @-ms-viewport { width: 100vw ; zoom: 100% ; }  @viewport { width: 100vw ; zoom: 100% ; }
+        @-ms-viewport { user-zoom: fixed ; }           @viewport { user-zoom: fixed ; }
+    </style>
+    <script src="js/jquery.js"></script>
+    <script src="cordova.js"></script>          <!-- phantom library, needed for Cordova api calls, added during build -->
+    <script src="js/app.js"></script>           <!-- recommended location of your JavaScript code relative to other JS files -->
+    <script src="xdk/init-dev.js"></script>     <!-- normalizes device and document ready events, see README for details -->
+    <script src="http://debug-software.intel.com/target/target-script-min.js#B9dJJV3vzBO6arYG-0yAw9jkttzzNEXNAFzsy32SFx0"></script>
+    
+<script src="js/three.min.js"></script>
+<script src="js/colladaLoader.js"></script>
+<script src="js/OrbitControls.js"></script>
+</head>
+<style>
+    body {
+        background: #000;
+    }
+    
+    #v,#v2{
+        float: left;
+        margin-top: 40px;
+        width: 50%;
+    }
+    
+    
+    .button {
+        opacity: 0;
+        border-radius: 100%;
+        background: #009688;
+        width: 25px;
+        height: 25px;
+        opacity: 0.5;
+        box-shadow: 0px 0px 4px rgba(0, 0, 0, 0.3) inset;
+        transition: all 1s;
+        display: none;
+    } 
+    
+    .button1-1 {
+        position: fixed;
+        left: 42%;
+        top: 100px;
+    }
+    
+    .button1-2 {
+        position: fixed;
+        left: 90%;
+        top: 100px;
+    }
+    .button2-1 {
+        position: fixed;
+        left: 42%;
+        top: 150px;
+    }
+    
+    .button2-2 {
+        position: fixed;
+        left: 90%;
+        top: 150px;
+    }
+    .button3-1 {
+        position: fixed;
+        left: 42%;
+        top: 200px;
+    }
+    
+    .button3-2 {
+        position: fixed;
+        left: 90%;
+        top: 200px;
+    }
+    .button4-1 {
+        position: fixed;
+        left: 15%;
+        top: 100px;
+    }
+    
+    .button4-2 {
+        position: fixed;
+        left: 63%;
+        top: 100px;
+    }
+    
+    .button5-1 {
+        position: fixed;
+        left: 15%;
+        top: 150px;
+    }
+    
+    .button5-2 {
+        position: fixed;
+        left: 63%;
+        top: 150px;
+    }
+    .button6-1 {
+        position: fixed;
+        left: 15%;
+        top: 200px;
+    }
+    
+    .button6-2 {
+        position: fixed;
+        left: 63%;
+        top: 200px;
+    }
+    
+    .calendar {
+        display: none;
+        opacity: 0;
+        transition: all 1s;
+        background: url('./images/calendar.jpg');
+        opacity: 0.7;
+        width: 120px;
+        height: 90px;
+        background-size: 100%;
+    }
+    
+    .calendar1 {
+        position: fixed;
+        left: 22%;
+        top: 110px;
+    }
+    
+    .calendar2 {
+        position: fixed;
+        left: 70%;
+        top: 110px;
+    }
+    
+    .video {
+        display: none;
+        opacity: 0;
+        transition: all 1s;
+        opacity: 0.9;
+        width: 120px;
+        height: 90px;
+    }
+    
+    .video1 {
+        position: fixed;
+        left: 22%;
+        top: 110px;
+    }
+    
+    .video2 {
+        position: fixed;
+        left: 70%;
+        top: 110px;
+    }
+    
+    .clock {
+        opacity: 0;
+        transition: all 1s;
+        opacity: 0;
+    }
+    
+    .clock1 {
+        position: fixed;
+        left: 22%;
+        top: 90px;
+    }
+    
+    .clock1 {
+        position: fixed;
+        left: 70%;
+        top: 90px;
+    }
+    
+    .data {
+        color: white;
+    }
+    
+    canvas {
+        position: absolute;
+        left: -25%;
+        top: 10px;
+    }
+    
+    .secondObj {
+        left: 24%;
+    }
+</style>
+<body>
+    <video id='v'></video>
+    <video id='v2'></video>
+    <div class="button button1-1"></div>
+    <div class="button button1-2"></div>
+    <div class="button button2-1"></div>
+    <div class="button button2-2"></div>
+    <div class="button button3-1"></div>
+    <div class="button button3-2"></div>
+    <div class="button button4-1"></div>
+    <div class="button button4-2"></div>
+    <div class="calendar calendar1"></div>
+    <div class="calendar calendar2"></div>
+    <div class="data"></div>
+    <video width="120" loop muted autoplay controls="disable" class="video video1">
+      <source src="./images/mov_bbb.mp4" type="video/mp4">
+      <source src="./images/mov_bbb.ogg" type="video/ogg">
+      Your browser does not support HTML5 video.
+    </video>
+    <video width="120" loop muted autoplay class="video video2">
+      <source src="./images/mov_bbb.mp4" type="video/mp4">
+      <source src="./images/mov_bbb.ogg" type="video/ogg">
+      Your browser does not support HTML5 video.
+    </video>
+    <div class="clock clock1"></div>
+    <div class="clock clock2"></div>
+    </body>
+    
+    <script>
+        var scene, camera, renderer;
+        var scene1, camera1, renderer1;
+        init();
+        animate();
+        function init() {
+            scene = new THREE.Scene();
+            scene1 = new THREE.Scene();
+            var WIDTH = window.innerWidth/64,
+            HEIGHT = window.innerHeight/64;
+            renderer = new THREE.WebGLRenderer({antialias:true,alpha: true});
+            renderer.setSize(WIDTH, HEIGHT);
+            renderer1 = new THREE.WebGLRenderer({antialias:true,alpha: true});
+            renderer1.setSize(WIDTH, HEIGHT);
+            document.body.appendChild(renderer.domElement);
+            document.body.appendChild(renderer1.domElement);
+            
+            $(renderer1.domElement).addClass("secondObj");
+            camera = new THREE.PerspectiveCamera(1, WIDTH / HEIGHT, 0.1, 10000);
+            camera.position.set(0,50,100);
+            camera1 = new THREE.PerspectiveCamera(1, WIDTH / HEIGHT, 0.1, 10000);
+            camera1.position.set(0,50,100);
+            scene.add(camera);
+            scene1.add(camera1);
+            window.addEventListener('resize', function() {
+                var WIDTH = window.innerWidth,
+                HEIGHT = window.innerHeight;
+                renderer.setSize(WIDTH, HEIGHT);
+                camera.aspect = WIDTH / HEIGHT;
+                camera.updateProjectionMatrix();
+
+                renderer1.setSize(WIDTH, HEIGHT);
+                camera1.aspect = WIDTH / HEIGHT;
+                camera1.updateProjectionMatrix();
+            });
+            
+
+
+        // var light = new THREE.PointLight(0xfffff3, 0.8);
+        // light.position.set(-100,200,100);
+        // scene.add(light);
+        // var sphereSize = 1;
+        // var pointLightHelper = new THREE.PointLightHelper( light, sphereSize );
+        // scene.add( pointLightHelper );
+        // var light2 = new THREE.PointLight(0xd7f0ff, 0.2);
+        // light2.position.set(200,200,100);
+        // scene.add(light2);
+        // var sphereSize = 1;
+        // var pointLightHelper2 = new THREE.PointLightHelper( light2, sphereSize );
+        // scene.add( pointLightHelper2 );
+        // var light3 = new THREE.PointLight(0xFFFFFF, 0.5);
+        // light3.position.set(150,200,-100);
+        // scene.add(light3);
+        // var sphereSize = 1;
+        // var pointLightHelper3 = new THREE.PointLightHelper( light3, sphereSize );
+        // scene.add( pointLightHelper3 );
+            var loader = new THREE.ColladaLoader();
+            loader.options.convertUpAxis = true;
+            loader.load( 'samsung_led_tv_32inch.dae', function ( collada ) {
+            //dummy1.dae
+            var dae = collada.scene;
+            var skin = collada.skins[ 0 ];
+            dae.position.set(0,0,0);//x,z,y- if you think in blender dimensions ;)
+            dae.scale.set(1,1,1);
+            scene.add(dae);
+                // var axes = new THREE.AxisHelper(50);
+                // axes.position = dae.position;
+                // scene.add(axes);
+                // var gridXZ = new THREE.GridHelper(100, 10);
+                // gridXZ.setColors( new THREE.Color(0x8f8f8f), new THREE.Color(0x8f8f8f) );
+                // gridXZ.position.set(0,0,0 );
+                // scene.add(gridXZ);
+            });
+            
+            var loader1 = new THREE.ColladaLoader();
+                
+            loader1.options.convertUpAxis = true;
+            loader1.load( 'samsung_led_tv_32inch.dae', function ( collada ) {
+                //dummy1.dae
+                var dae1 = collada.scene;
+                var skin1 = collada.skins[ 0 ];
+                dae1.position.set(0,0,0);//x,z,y- if you think in blender dimensions ;)
+                dae1.scale.set(1,1,1);
+                scene1.add(dae1);
+            });
+            controls = new THREE.OrbitControls(camera,renderer.domElement);
+            controls1 = new THREE.OrbitControls(camera1, renderer1.domElement);
+        }
+        function animate() {
+            requestAnimationFrame(animate);
+            renderer.render(scene, camera);
+            renderer1.render(scene1, camera1);
+            controls.update();
+            controls1.update();
+        }
+    </script>
+</html>
